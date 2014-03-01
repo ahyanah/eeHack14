@@ -420,7 +420,7 @@ void loop() {
     DNETcK::periodicTasks();
 }
 
-void loop2() {
+void readData() {
   ACC_Light = analogRead(sensorPinLight);
   V_Light = ((float) ACC_Light)/1024*3.3;
 
