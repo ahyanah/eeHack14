@@ -28,7 +28,7 @@
         <!-- Title Area -->
 
         <li class="name">
-          <h1><a href="#">Top Bar Title</a></h1>
+          <h1><a href="#">Home</a></h1>
         </li>
 
         <li class="toggle-topbar menu-icon">
@@ -39,11 +39,11 @@
       <section class="top-bar-section">
         <ul class="left">
           <li>
-            <a href="#">Link 1</a>
+            <a href="#">Energy Usage</a>
           </li>
 
           <li>
-            <a href="#">Link 2</a>
+            <a href="#">Login</a>
           </li>
         </ul>
 
@@ -68,7 +68,7 @@
     <!-- Desktop Slider -->
 
     <div class="hide-for-small">
-      <div id="featured"><img alt="slide image" src="http://placehold.it/1000x400&amp;text=Slide%20Image"></div>
+      <div id="featured"><img alt="eeHack14" src="https://eesoc.com/assets/images/eesoc-logo.png"></div>
     </div><!-- End Desktop Slider -->
     <!-- Mobile Header -->
 
@@ -85,7 +85,17 @@
       <!-- Thumbnails -->
 	  {% for room in rooms %}
 		  <div class="large-3 small-6 columns">
-			<img src="http://placehold.it/250x250&amp;text=Thumbnail">
+			{% if room.id == 4 %}
+			<img src="http://i42.tinypic.com/281v3tc.jpg">
+			{% elif room.id == 3 %}
+			<img src="http://c.squaremeal.co.uk/include/images/content/53/0901_Imperial_College_GreatHall@gallerymain.jpg">
+			{% elif room.id == 2 %}
+			<img src="http://originaltop10.files.wordpress.com/2011/08/imperial-college-london-award-ceremony-2011.jpg">
+			{% elif room.id == 1 %}
+			<img src="http://www.studygroup.com/-/media/Corporate%20Site/Images/imperial_college_london_image.jpg">
+			{% else %}
+			<img src="http://copac.ac.uk/images/content/libraries/imperial2.jpg">		
+			{% endif%}
 
 			<h6 class="panel">
 			
@@ -134,11 +144,10 @@
         <div class="panel radius">
           <div class="row">
             <div class="large-6 small-6 columns">
-              <h4>Header</h4>
+              <h4>Project</h4>
               <hr>
 
-              <h5 class="subheader">Risus ligula, aliquam nec fermentum vitae, sollicitudin eget urna. Donec
-              dignissim nibh fermentum odio ornare sagittis.</h5>
+              <h5 class="subheader">This is a project built for EESoc14. We hope to improve the energy usage of the EEE building.</h5>
 
               <div class="show-for-small" style="text-align: center">
                 <a class="small radius button" href="#">Call To Action!</a><br>
@@ -147,9 +156,7 @@
             </div>
 
             <div class="large-6 small-6 columns">
-              <p>Suspendisse ultrices ornare tempor. Aenean eget ultricies libero. Phasellus non ipsum eros. Vivamus
-              at dignissim massa. Aenean dolor libero, blandit quis interdum et, malesuada nec ligula. Nullam erat
-              erat, eleifend sed pulvinar ac. Suspendisse ultrices ornare tempor. Aenean eget ultricies libero.</p>
+              <p>Feel free to drop us your feedback. Thank you.</p>
             </div>
           </div>
         </div>
@@ -160,10 +167,10 @@
         <hr>
         <a href="#">
         <div class="panel radius callout" style="text-align: center">
-          <strong>Call To Action!</strong>
+          <strong>Call us!</strong>
         </div></a> <a href="#">
         <div class="panel radius callout" style="text-align: center">
-          <strong>Call To Action!</strong>
+          <strong>Message us!</strong>
         </div></a>
       </div><!-- End Content -->
     </div>
@@ -176,7 +183,7 @@
 
     <div class="row">
       <div class="large-6 columns">
-        <p>© Copyright no one at all. Go to town.</p>
+        <p>© Copyright</p>
       </div>
 
       <div class="large-6 columns">
