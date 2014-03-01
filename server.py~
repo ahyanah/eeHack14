@@ -91,9 +91,6 @@ def check_availability():
 		                datetime=event.dtstart.value
 		                )
 
-
-	return 'Calendar populated'
-
 @app.route('/log')
 def log():
 	room_id = request.args.get('room_id', '')
