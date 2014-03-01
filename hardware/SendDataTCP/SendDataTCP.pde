@@ -369,7 +369,6 @@ void loop() {
                Serial.println("MATCH.");
                readData();
                data = str;
-               data = "readData() not yet implemented.";
                uint8_t payload[data.length()];
                data.getBytes(payload, data.length()+1);
                tcpClient.writeStream(payload, sizeof(payload));
