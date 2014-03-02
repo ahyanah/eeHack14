@@ -100,15 +100,17 @@
 			<h6 class="panel">
 			
 				{{ room.name }} (ID: {{ room.id }})
-				<br>STATUS<b></b>
+				<br>CURRENT STATUS<b></b><br>
 				{% if room.last_reading(): %}
-					Reading: {{ room.last_reading().temperature }}<br>
+					Temperature: {{ room.last_reading().temperature }}<br>
 					Noise: {{ room.last_reading().noise }}<br>
 					Lights: {% if room.last_reading().light_status: %}
 							ON
 							{% else %}
 							OFF
 							{% endif %}
+				{% else %}
+					Not available<br>
 				{% endif %}
 <!--
 				<ul>
