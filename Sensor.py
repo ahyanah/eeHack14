@@ -1,6 +1,7 @@
-import myTCP
 import socket
 import ast
+import re
+import csv
 
 class Sensor:
    'Class for sensors'
@@ -10,9 +11,9 @@ class Sensor:
       self.port = port
    
    def getMeasurements(self):
-      rawData = self.getRawDataTCP(self.ipAddress, self.port, 'SEND_ALL_DATA')
+      data = self.getRawDataTCP(self.ipAddress, self.port, 'SEND_ALL_DATA')
      #implement interpret
-      return self._interpretRawData(rawData)
+      return data
 
    def getRawDataTCP(self, TCP_IP, TCP_PORT, REQUEST):
 
@@ -25,10 +26,20 @@ class Sensor:
        data = s.recv(BUFFER_SIZE)
        s.close()
 
-       return data
+       #print data
+
+       #print self._interpretRawData(data)
+       return self._interpretRawData(data)
 
 
-   def _interpretRawData(rawData):
-      # Raw data is a stringified dict: i.e. rawData = "{"Temperature" : 123, ... }"
-      # Use the following to convert evaluate string safely into a dict.
-      return ast.literal_eval(rawData)
+ 
+
+
+   def _interpretRawData(self,rawData):
+       newData = rawData.translate(None, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:=\' ')
+       #print newData
+       values = newData.split(',')
+       #print values
+       dictData = {"Light" : values[0], "Temperature" : values[1], "Sound" : values[2]}
+       #print dictData
+       return dictData
