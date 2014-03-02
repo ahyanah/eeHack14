@@ -160,12 +160,16 @@ int sensorPinLight = A0;
 int sensorPinTemp = A1;
 int ACC_Light, ACC_Temp;
 float V_Light, V_Temp, T;
-int state = 1;
+int lightState = 1;
 float V_L = 1.85;
 float V_H = 2.15;
 int i, SERIAL_DATA;
 float sum, V_seg;
-
+float averaged_sound_power=0;
+float current_sound_power=0;
+int averaging_sound_power_started = 0;
+char sound_str[100];
+char data2[100];
 
 DNETcK::STATUS status;
 
@@ -288,6 +292,11 @@ void loop() {
 
     // wait for a connection
     case AVAILABLECLIENT:
+        //looping here ;)
+        current_sound_power = readData();
+        if(averaging_sound_power_started==1){averaged_sound_power = averaged_sound_power*0.9 + current_sound_power*0.1;}
+        else{averaged_sound_power = current_sound_power; averaging_sound_power_started=1;};
+        
         if((count = tcpServer.availableClients()) > 0)
         {
             Serial.print("Got ");
@@ -367,8 +376,11 @@ void loop() {
             
             if (request.equals(correctRequest)) {
                Serial.println("MATCH.");
-               readData();
-               data = str;
+               //readData();
+               strcpy(data2, str);
+               sprintf(sound_str,",'sound':%f", averaged_sound_power);
+               strcat(data2,sound_str);
+               data = data2;
                uint8_t payload[data.length()];
                data.getBytes(payload, data.length()+1);
                tcpClient.writeStream(payload, sizeof(payload));
@@ -419,7 +431,7 @@ void loop() {
     DNETcK::periodicTasks();
 }
 
-void readData() {
+float readData() {
   ACC_Light = analogRead(sensorPinLight);
   V_Light = ((float) ACC_Light)/1024*3.3;
 
@@ -428,32 +440,33 @@ void readData() {
  
   if(V_Light>V_H)
   {
-	if(state != 1)
-	{
-		state = 1;
-	};
+if(lightState != 1)
+{
+lightState = 1;
+};
   }
   else if(V_Light<V_L)
   {
-	if(state != 0)
-	{
-		state = 0;
-	};
+if(lightState != 0)
+{
+lightState = 0;
+};
   };
   
   T = 107.1429*V_Temp - 57.1429;
 
   sum = 0;
-  for(i=0;i<=999;i++){  
-	  Serial.print('R');
-	  while(Serial.available()==0){};
-	  
-	  SERIAL_DATA = Serial.read();
+  for(i=0;i<=999;i++){
+Serial.print('R');
+while(Serial.available()==0){};
+
+SERIAL_DATA = Serial.read();
       V_seg = ((float) SERIAL_DATA)/1024*3.3;
-	  sum = sum + V_seg*V_seg;
-	  delayMicroseconds(100);
+sum = sum + V_seg*V_seg;
+delayMicroseconds(100);
   }
   sum = sum/1000.0;
-  sprintf(str,"Light = %d, Temperature = %f, Sound = %f", state, T, sum);
+  sprintf(str,"Light = %d, Temperature = %f", lightState, T);
   Serial.print(str);
+  return sum;
 }
